@@ -27,6 +27,6 @@ class IncontactController extends BaseController
         if (!$request->has('code')){
             die;
         }
-        return Authentication::processAuthenicationCode($request->input('code'));
+        return Authentication::processAuthenticationCode($request->input('code'), $request);
     }
 }

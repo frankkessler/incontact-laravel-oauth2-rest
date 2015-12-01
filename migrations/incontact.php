@@ -12,16 +12,23 @@ class CreateIncontactTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('incontact_tokens', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('access_token');
-            $table->string('refresh_token');
-            $table->string('instance_base_url');
-            $table->bigInteger('user_id');
-            $table->datetime('expires')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        if (!Schema::hasTable('incontact_tokens')) {
+            Schema::create('incontact_tokens', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->longText('access_token');
+                $table->string('refresh_token');
+                $table->string('instance_base_url');
+                $table->string('refresh_instance_url');
+                $table->string('scope');
+                $table->integer('agent_id');
+                $table->integer('team_id');
+                $table->integer('business_unit');
+                $table->bigInteger('user_id');
+                $table->datetime('expires')->nullable();
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**

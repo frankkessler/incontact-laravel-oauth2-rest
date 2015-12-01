@@ -6,7 +6,7 @@ use Frankkessler\Incontact\Repositories\TokenRepositoryInterface;
 use Frankkessler\Incontact\Models\IncontactToken;
 use CommerceGuys\Guzzle\Oauth2\AccessToken;
 use Auth;
-use Config;
+use Config, Datetime, DateInterval;
 
 class TokenEloquentRepository implements TokenRepositoryInterface{
 
@@ -47,6 +47,12 @@ class TokenEloquentRepository implements TokenRepositoryInterface{
             $record = new IncontactToken;
             $record->user_id = $user_id;
         }
+
+        $expires = date_create_from_format('Y-m-d H:i:s',$record->expires);
+        if($expires instanceof DateTime){
+            $record->expires = $expires->format('U');
+        }
+
         return $record;
     }
 
@@ -75,6 +81,22 @@ class TokenEloquentRepository implements TokenRepositoryInterface{
         $record->access_token = $token->getToken();
         $record->refresh_token = $token->getRefreshToken()->getToken();
         $record->instance_base_url = $token_data['resource_server_base_uri'];
+        $record->refresh_instance_url = $token_data['refresh_token_server_uri'];
+        $record->scope = $token_data['scope'];
+        $record->agent_id = $token_data['agent_id'];
+        $record->team_id = $token_data['team_id'];
+        $record->business_unit = $token_data['bus_no'];
+
+        $expires_in = (isset($token_data['expires_in']) && $token_data['expires_in'] > 0)?$token_data['expires_in']:3600;
+
+        //give 5 second buffer
+        $expires_in = $expires_in - 5;
+
+        $date = new DateTime();
+        $interval = new DateInterval('PT'.$expires_in.'S');
+        $date->add($interval);
+
+        $record->expires = $date->format('Y-m-d H:i:s');
 
         $record->save();
 
