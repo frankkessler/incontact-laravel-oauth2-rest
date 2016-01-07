@@ -26,8 +26,17 @@ class ReportingApi extends Base
      * isRefused
      * isTakeover
      */
-    public function contacts_completed($query_array=[]){
+    public function contacts_completed($query_array=[])
+    {
         $query_string = http_build_query($query_array);
         return $this->client->get('contacts/completed?'.$query_string);
+    }
+
+    /*
+     * contact
+     */
+    public function contact($contact_id)
+    {
+        return $this->client->get('contacts/'.$contact_id);
     }
 }
