@@ -71,7 +71,6 @@ class Authentication{
         ]);
 
         $authorization_config = [
-            'code' => $code,
             'client_id' => IncontactConfig::get('incontact.oauth.consumer_token'),
             'client_secret' => IncontactConfig::get('incontact.oauth.consumer_secret'),
             'redirect_uri' => IncontactConfig::get('incontact.oauth.callback_url'),
