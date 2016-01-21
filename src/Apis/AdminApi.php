@@ -5,6 +5,13 @@ namespace Frankkessler\Incontact\Apis;
 class AdminApi extends Base
 {
     /*
+     * agents
+     */
+    public function agents(){
+        return $this->client->get('agents');
+    }
+
+    /*
      * points_of_contact
      */
     public function points_of_contact(){
