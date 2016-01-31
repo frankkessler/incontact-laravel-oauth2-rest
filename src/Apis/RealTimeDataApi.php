@@ -4,149 +4,61 @@ namespace Frankkessler\Incontact\Apis;
 
 class RealTimeDataApi extends Base
 {
-    /*
-     * contacts_completed
+    /**
+     * Get current real-time agent states
      *
-     * Options:
-     * startDate
-     * endDate
-     * updatedSince
-     * fields
-     * skip
-     * top
-     * orderBy
-     * mediaTypeId
-     * skillId
-     * campaignId
-     * agentId
-     * teamId
-     * toAddr
-     * fromAddr
-     * isLogged
-     * isRefused
-     * isTakeover
+     * array['query_array']         array Defines query structure for api call
+     *          ['updatedSince']    string Date string
+     *          ['fields']          string  List of fields to return from api
+     *
+     * @param array $query_array Structure:(See Above)
+     *
+     * @return array
      */
-    public function contacts_completed($query_array=[])
+    public function agents_states($query_array=[])
     {
         $query_string = http_build_query($query_array);
-        return $this->client->get('contacts/completed?'.$query_string);
+        return $this->client->get('agents/states?'.$query_string);
     }
 
-    /*
-     * agents states
+    /**
+     * Get current real-time contact states
      *
-     * {
-          "agentStates": [
-            {
-              "agentId": 0,
-              "agentStateId": 0,
-              "agentStateName": "",
-              "businessUnitId": 0,
-              "contactId": 0,
-              "isACW": false,
-              "isOutbound": false,
-              "firstName": "",
-              "fromAddress": "",
-              "lastName": "",
-              "lastPollTime": "date",
-              "lastUpdateTime": "date",
-              "mediaName": "",
-              "mediaType": 0,
-              "openContacts": 0,
-              "outStateDescription": "",
-              "outStateId": 0,
-              "skillId": 0,
-              "skillName": "",
-              "startDate": "date",
-              "stationId": 0,
-              "stationPhoneNumber": "",
-              "teamId": 0,
-              "teamName": "",
-              "toAddress": ""
-            }
-          ]
-        }
+     * array['query_array']         array Defines query structure for api call
+     *          ['updatedSince']    string Date string
+     *          ['fields']          string  List of fields to return from api
+     *          ['mediaTypeId']     integer Filter api return by media type
+     *          ['skillId']         integer Filter api return by skill
+     *          ['campaignId']      integer Filter api return by campaign
+     *          ['agentId']         integer Filter api return by agent
+     *          ['teamId']          integer Filter api return by team
+     *          ['toAddr']          string Filter api return by to address
+     *          ['fromAddr']        string Filter api return by from address
+     *
+     * @param array $query_array Structure:(See Above)
+     *
+     * @return array
      */
-    public function agents_states()
+    public function contacts_states($query_array=[])
     {
-        return $this->client->get('agents/states');
+        $query_string = http_build_query($query_array);
+        return $this->client->get('contacts/states?'.$query_string);
     }
 
-    /*
-     * contacts states
+    /**
+     * Get current real-time agent skills activity
      *
-     * {
-          "contactStates": [
-            {
-              "AgentId": 0,
-              "BusinessUnitId": 0,
-              "CampaignName": "",
-              "CampaignId": 0,
-              "ContactId": 0,
-              "ContactStateCode": 0,
-              "CurrentContactState": "",
-              "FirstName": "",
-              "FromAddr": "",
-              "LastName": "",
-              "LastPollTime": "date",
-              "LastUpdateTime": "date",
-              "MasterContactId": 0,
-              "MediaName": "",
-              "MediaType": 0,
-              "SkillName": "",
-              "SkillId": 0,
-              "StartDate": "date",
-              "TeamName": "",
-              "TeamId": 0,
-              "Toaddr": ""
-            }
-          ]
-        }
-     */
-    public function contacts_states()
-    {
-        return $this->client->get('contacts/states');
-    }
-
-    /*
-     * skills activity
+     * array['query_array']         array Defines query structure for api call
+     *          ['updatedSince']    string Date string
+     *          ['fields']          string  List of fields to return from api
      *
-     * {
-          "resultSet": {
-            "lastPollTime": "date-time",
-            "skillActivity": [
-              {
-                "serverTime": "date",
-                "businessUnitId": 0,
-                "agentsACW": 0,
-                "agentsAvailable": 0,
-                "agentsIdle": 0,
-                "agentsLoggedIn": 0,
-                "agentsUnavailable": 0,
-                "agentsWorking": 0,
-                "campaignId": 0,
-                "campaignName": "",
-                "contactsActive": 0,
-                "earliestQueueTime": "",
-                "isActive": false,
-                "inSLA": 0,
-                "isOutbound": false,
-                "mediaTypeId": 0,
-                "mediaTypeName": "",
-                "outSLA": 0,
-                "queueCount": 0,
-                "serviceLevel": 0,
-                "serviceLevelGoal": 0,
-                "serviceLevelThreshold": 0,
-                "skillName": "",
-                "skillId": 0
-              }
-            ]
-          }
-        }
+     * @param array $query_array Structure:(See Above)
+     *
+     * @return array
      */
-    public function skills_activity()
+    public function skills_activity($query_array=[])
     {
-        return $this->client->get('skills/activity');
+        $query_string = http_build_query($query_array);
+        return $this->client->get('skills/activity?'.$query_string);
     }
 }
