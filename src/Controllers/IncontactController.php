@@ -3,10 +3,7 @@
 namespace Frankkessler\Incontact\Controllers;
 
 use Illuminate\Http\Request;
-
-use App;
-
-use App\Http\Requests;
+use Illuminate\Http\Response;
 use Frankkessler\Incontact\Controllers\BaseController;
 use Illuminate\Support\Facades\View;
 use Frankkessler\Incontact\Authentication;
