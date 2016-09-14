@@ -4,7 +4,6 @@ namespace Frankkessler\Incontact\Controllers;
 
 use Frankkessler\Incontact\Authentication;
 use Illuminate\Http\Request;
-
 use Illuminate\Http\Response;
 
 class IncontactController extends BaseController

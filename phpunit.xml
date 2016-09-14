@@ -16,9 +16,16 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src</directory>
+            <exclude>
+                <file>./src/Authentication.php</file>
+                <directory>./src/Controllers</directory>
+            </exclude>
         </whitelist>
     </filter>
     <logging>
         <log type="coverage-clover" target="build/logs/clover.xml"/>
     </logging>
+    <php>
+        <env name="foo" value="bar"/>
+    </php>
 </phpunit>
