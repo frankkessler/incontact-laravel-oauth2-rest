@@ -6,5 +6,5 @@ interface OauthClientInterface
 {
     public function returnClientGrantTypeClass();
 
-    public function call_api($method, $url, $options=[], $debug_info=[]);
+    public function call_api($method, $url, $options = [], $debug_info = []);
 }

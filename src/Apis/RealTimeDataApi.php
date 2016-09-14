@@ -5,7 +5,7 @@ namespace Frankkessler\Incontact\Apis;
 class RealTimeDataApi extends Base
 {
     /**
-     * Get current real-time agent states
+     * Get current real-time agent states.
      *
      * array['query_array']         array Defines query structure for api call
      *          ['updatedSince']    string Date string
@@ -15,14 +15,15 @@ class RealTimeDataApi extends Base
      *
      * @return array
      */
-    public function agents_states($query_array=[])
+    public function agents_states($query_array = [])
     {
         $query_string = http_build_query($query_array);
+
         return $this->client->get('agents/states?'.$query_string);
     }
 
     /**
-     * Get current real-time contact states
+     * Get current real-time contact states.
      *
      * array['query_array']         array Defines query structure for api call
      *          ['updatedSince']    string Date string
@@ -39,14 +40,15 @@ class RealTimeDataApi extends Base
      *
      * @return array
      */
-    public function contacts_states($query_array=[])
+    public function contacts_states($query_array = [])
     {
         $query_string = http_build_query($query_array);
+
         return $this->client->get('contacts/states?'.$query_string);
     }
 
     /**
-     * Get current real-time agent skills activity
+     * Get current real-time agent skills activity.
      *
      * array['query_array']         array Defines query structure for api call
      *          ['updatedSince']    string Date string
@@ -56,9 +58,10 @@ class RealTimeDataApi extends Base
      *
      * @return array
      */
-    public function skills_activity($query_array=[])
+    public function skills_activity($query_array = [])
     {
         $query_string = http_build_query($query_array);
+
         return $this->client->get('skills/activity?'.$query_string);
     }
 }

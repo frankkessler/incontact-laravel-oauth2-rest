@@ -25,7 +25,7 @@ class ReportingApiTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
         $result = $incontact->ReportingApi()->contact('2789879875');
 
-        foreach($result as $record) {
+        foreach ($result as $record) {
             $this->assertEquals('2789879875', $record['contactId']);
         }
     }
@@ -47,23 +47,23 @@ class ReportingApiTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
             'incontact.base_uri'            => 'api.incontact.com',
         ]);
 
-        $startDate = date_create_from_format('Y-m-d H:i:s','2016-09-13 16:29:31', new \DateTimeZone('UTC'));
-        $endDate = date_create_from_format('Y-m-d H:i:s','2016-09-13 16:31:31', new \DateTimeZone('UTC'));
+        $startDate = date_create_from_format('Y-m-d H:i:s', '2016-09-13 16:29:31', new \DateTimeZone('UTC'));
+        $endDate = date_create_from_format('Y-m-d H:i:s', '2016-09-13 16:31:31', new \DateTimeZone('UTC'));
 
         $options = [
             'startDate' => $startDate->format('c'),
-            'endDate' => $endDate->format('c'),
+            'endDate'   => $endDate->format('c'),
         ];
 
         $result = $incontact->ReportingApi()->contacts_completed($options);
 
         $this->assertTrue(is_array($result['resultSet']['completedContacts']));
 
-        $i=1;
-        foreach($result['resultSet']['completedContacts'] as $record) {
-            if($i==1) {
+        $i = 1;
+        foreach ($result['resultSet']['completedContacts'] as $record) {
+            if ($i == 1) {
                 $this->assertEquals('2789879875', $record['contactId']);
-            }else{
+            } else {
                 $this->assertEquals('2789879876', $record['contactId']);
             }
             $i++;
