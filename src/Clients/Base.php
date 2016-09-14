@@ -149,46 +149,13 @@ class Base
 
             if ($response_code == 200) {
                 $data = json_decode((string) $response->getBody(), true);
-            } elseif ($response_code == 201) {
-                $data = json_decode((string) $response->getBody(), true);
-                $data['operation'] = 'create';
-                if (isset($data['id'])) {
-                    $data['Id'] = $data['id'];
-                }
-                unset($data['id']);
-            } elseif ($response_code == 204) {
-                if (strtolower($method) == 'delete') {
-                    $data = [
-                        'success'   => true,
-                        'operation' => 'delete',
-                    ];
-                } else {
-                    $data = [
-                        'success'   => true,
-                        'operation' => 'update',
-                    ];
-                }
-            } elseif ($response_code == 400) {
-                $data = json_decode((string) $response->getBody(), true);
-                $data = current($data);
-                if (!$data) {
-                    $data['message_string'] = (string) $response->getBody();
-                }
-                $data['http_status'] = $response_code;
-                $data['success'] = false;
-                $data = array_merge($debug_info, $data);
             } else {
                 $data = json_decode((string) $response->getBody(), true);
                 if (!$data) {
                     $data['message_string'] = (string) $response->getBody();
                 }
                 $data['http_status'] = $response_code;
-                $data['success'] = false;
                 $data = array_merge($debug_info, $data);
-            }
-
-            if (isset($data) && $data  && isset($data['success']) && $data['success']) {
-                $this->updateAccessToken($this->oauth2Client->getAccessToken()->getToken());
             }
         } catch (InvalidGrantException $e) {
             if ($try < 2) {
