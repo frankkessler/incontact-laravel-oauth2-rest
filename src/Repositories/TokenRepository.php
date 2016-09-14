@@ -7,24 +7,25 @@ use Frankkessler\Incontact\Repositories\Eloquent\TokenEloquentRepository;
 
 class TokenRepository
 {
-    function __construct($config=[])
+    public function __construct($config = [])
     {
         $this->store = $this->setStore($config);
     }
 
     /**
      * @param array $config
+     *
      * @return TokenRepositoryInterface
      */
-
-    function setStore($config=[])
+    public function setStore($config = [])
     {
         $store_name = IncontactConfig::get('incontact.storage_type');
-        return $this->{'create' . ucfirst($store_name) . 'Driver'}($config);
+
+        return $this->{'create'.ucfirst($store_name).'Driver'}($config);
     }
 
-    function createEloquentDriver($config=[])
+    public function createEloquentDriver($config = [])
     {
-        return new TokenEloquentRepository;
+        return new TokenEloquentRepository();
     }
 }

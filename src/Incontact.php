@@ -2,46 +2,45 @@
 
 namespace Frankkessler\Incontact;
 
-use CommerceGuys\Guzzle\Oauth2\Oauth2Client;
-use CommerceGuys\Guzzle\Oauth2\GrantType\AuthorizationCode;
-use CommerceGuys\Guzzle\Oauth2\GrantType\RefreshToken;
-use CommerceGuys\Guzzle\Oauth2\Utilities;
 use Frankkessler\Incontact\Clients\Password;
-use Frankkessler\Incontact\Repositories\TokenRepository;
 
-class Incontact{
-
+class Incontact
+{
     public $client;
 
     protected $config;
 
-    public function __construct($config=null){
-
+    public function __construct($config = null)
+    {
         $this->config = $config;
 
         IncontactConfig::setInitialConfig($config);
 
         $oauth_config = [];
 
-        if(isset($config['handler'])){
+        if (isset($config['handler'])) {
             $oauth_config['handler'] = $config['handler'];
         }
 
         $this->client = $this->getActiveClient($oauth_config);
     }
 
-    protected function getActiveClient($config=[]){
+    protected function getActiveClient($config = [])
+    {
         $oauth_method = IncontactConfig::get('incontact.oauth.auth_method');
+
         return $this->{'get'.strtoupper($oauth_method).'Client'}($config);
     }
 
-    protected function getPasswordClient($config=[]){
+    protected function getPasswordClient($config = [])
+    {
         return new Password($config);
     }
 
     /**
      * @param $level
      * @param $message
+     *
      * @return mixed|void
      */
     protected function log($level, $message)
@@ -55,10 +54,11 @@ class Incontact{
 
     public function __call($method, $args)
     {
-        if(!isset($this->{$method})){
-            $class =  "\\Frankkessler\\Incontact\\Apis\\".$method;
+        if (!isset($this->{$method})) {
+            $class = '\\Frankkessler\\Incontact\\Apis\\'.$method;
             $this->{$method} = new $class($this->client);
         }
+
         return $this->{$method};
     }
 

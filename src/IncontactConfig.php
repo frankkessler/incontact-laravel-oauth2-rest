@@ -1,4 +1,5 @@
 <?php
+
 namespace Frankkessler\Incontact;
 
 class IncontactConfig

@@ -2,39 +2,43 @@
 
 namespace Frankkessler\Incontact\Repositories\Eloquent;
 
-use Frankkessler\Incontact\IncontactConfig;
-use Frankkessler\Incontact\Repositories\TokenRepositoryInterface;
-use Frankkessler\Incontact\Models\IncontactToken;
 use CommerceGuys\Guzzle\Oauth2\AccessToken;
-use Datetime, DateInterval;
+use DateInterval;
+use Datetime;
+use Frankkessler\Incontact\IncontactConfig;
+use Frankkessler\Incontact\Models\IncontactToken;
+use Frankkessler\Incontact\Repositories\TokenRepositoryInterface;
 
-class TokenEloquentRepository implements TokenRepositoryInterface{
-
-    public function  __construct($config=[]){
-
+class TokenEloquentRepository implements TokenRepositoryInterface
+{
+    public function __construct($config = [])
+    {
     }
 
-    public function setAccessToken($access_token, $user_id=null){
+    public function setAccessToken($access_token, $user_id = null)
+    {
         $record = $this->getTokenRecord($user_id);
 
         $record->access_token = $access_token;
         $record->save();
     }
 
-    public function setRefreshToken($refresh_token, $user_id=null){
+    public function setRefreshToken($refresh_token, $user_id = null)
+    {
         $record = $this->getTokenRecord($user_id);
 
         $record->refresh_token = $refresh_token;
         $record->save();
     }
 
-    public function getTokenRecord($user_id=null){
-        if(is_null($user_id)){
+    public function getTokenRecord($user_id = null)
+    {
+        if (is_null($user_id)) {
             $user_id = IncontactConfig::get('incontact.storage_global_user_id');
-            if(is_null($user_id)){
-                if(class_exists('\Auth') && $user = \Auth::user()){
+            if (is_null($user_id)) {
+                if (class_exists('\Auth') && $user = \Auth::user()) {
                     $user_id = $user->id;
-                }else{
+                } else {
                     $user_id = 0;
                 }
             }
@@ -42,26 +46,27 @@ class TokenEloquentRepository implements TokenRepositoryInterface{
 
         $record = IncontactToken::findByUserId($user_id)->first();
 
-        if(!$record) {
-            $record = new IncontactToken;
+        if (!$record) {
+            $record = new IncontactToken();
             $record->user_id = $user_id;
         }
 
-        $expires = date_create_from_format('Y-m-d H:i:s',$record->expires);
-        if($expires instanceof DateTime){
+        $expires = date_create_from_format('Y-m-d H:i:s', $record->expires);
+        if ($expires instanceof DateTime) {
             $record->expires = $expires->format('U');
         }
 
         return $record;
     }
 
-    public function setTokenRecord(AccessToken $token, $user_id=null){
-        if(is_null($user_id)){
+    public function setTokenRecord(AccessToken $token, $user_id = null)
+    {
+        if (is_null($user_id)) {
             $user_id = IncontactConfig::get('incontact.storage_global_user_id');
-            if(is_null($user_id)){
-                if(class_exists('\Auth') && $user = \Auth::user()){
+            if (is_null($user_id)) {
+                if (class_exists('\Auth') && $user = \Auth::user()) {
                     $user_id = $user->id;
-                }else{
+                } else {
                     $user_id = 0;
                 }
             }
@@ -69,8 +74,8 @@ class TokenEloquentRepository implements TokenRepositoryInterface{
 
         $record = IncontactToken::findByUserId($user_id)->first();
 
-        if(!$record) {
-            $record = new IncontactToken;
+        if (!$record) {
+            $record = new IncontactToken();
             $record->user_id = $user_id;
         }
 
@@ -85,7 +90,7 @@ class TokenEloquentRepository implements TokenRepositoryInterface{
         $record->team_id = $token_data['team_id'];
         $record->business_unit = $token_data['bus_no'];
 
-        $expires_in = (isset($token_data['expires_in']) && $token_data['expires_in'] > 0)?$token_data['expires_in']:3600;
+        $expires_in = (isset($token_data['expires_in']) && $token_data['expires_in'] > 0) ? $token_data['expires_in'] : 3600;
 
         //give 5 second buffer
         $expires_in = $expires_in - 5;

@@ -27,11 +27,11 @@ class AdminApiTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
         $this->assertTrue(is_array($result['agents']));
 
-        $i=1;
-        foreach($result['agents'] as $record) {
-            if($i==1) {
+        $i = 1;
+        foreach ($result['agents'] as $record) {
+            if ($i == 1) {
                 $this->assertEquals('999999', $record['AgentId']);
-            }else{
+            } else {
                 $this->assertEquals('999998', $record['AgentId']);
             }
             $i++;
@@ -59,11 +59,11 @@ class AdminApiTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
         $this->assertTrue(is_array($result['pointsOfContact']));
 
-        $i=1;
-        foreach($result['pointsOfContact'] as $record) {
-            if($i==1) {
+        $i = 1;
+        foreach ($result['pointsOfContact'] as $record) {
+            if ($i == 1) {
                 $this->assertEquals('9999999', $record['ContactCode']);
-            }else{
+            } else {
                 $this->assertEquals('9999998', $record['ContactCode']);
             }
             $i++;
@@ -91,11 +91,11 @@ class AdminApiTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
         $this->assertTrue(is_array($result['skills']));
 
-        $i=1;
-        foreach($result['skills'] as $record) {
-            if($i==1) {
+        $i = 1;
+        foreach ($result['skills'] as $record) {
+            if ($i == 1) {
                 $this->assertEquals('999999', $record['SkillId']);
-            }else{
+            } else {
                 $this->assertEquals('999998', $record['SkillId']);
             }
             $i++;
@@ -125,12 +125,12 @@ class AdminApiTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
         $this->assertTrue(is_array($result['skillDispositions']['dispositions']));
 
-        $this->assertEquals($skillId,$result['skillDispositions']['skillId']);
-        $i=1;
-        foreach($result['skillDispositions']['dispositions'] as $record) {
-            if($i==1) {
+        $this->assertEquals($skillId, $result['skillDispositions']['skillId']);
+        $i = 1;
+        foreach ($result['skillDispositions']['dispositions'] as $record) {
+            if ($i == 1) {
                 $this->assertEquals('1', $record['dispositionId']);
-            }else{
+            } else {
                 $this->assertEquals('2', $record['dispositionId']);
             }
             $i++;
