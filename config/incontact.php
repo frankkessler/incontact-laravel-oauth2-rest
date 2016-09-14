@@ -26,4 +26,5 @@ return [
     'storage_type' => 'eloquent',
     'storage_global_user_id' => null,
     'enable_oauth_routes' =>  env('INCONTACT_ENABLE_OAUTH_ROUTES',false),
+    'logger'                 => env('INCONTACT_LOGGER_CLASS', null),
 ];

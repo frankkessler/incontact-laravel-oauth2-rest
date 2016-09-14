@@ -10,23 +10,47 @@ use Frankkessler\Incontact\Clients\Password;
 use Frankkessler\Incontact\Repositories\TokenRepository;
 
 class Incontact{
+
+    public $client;
+
+    protected $config;
+
     public function __construct($config=null){
-        if($config){
-            IncontactConfig::setAll($config);
+
+        $this->config = $config;
+
+        IncontactConfig::setInitialConfig($config);
+
+        $oauth_config = [];
+
+        if(isset($config['handler'])){
+            $oauth_config['handler'] = $config['handler'];
         }
-        $this->repository = new TokenRepository;
-        $this->token_record = $this->repository->store->getTokenRecord();
 
-        $this->client = $this->getActiveClient();
+        $this->client = $this->getActiveClient($oauth_config);
     }
 
-    protected function getActiveClient(){
+    protected function getActiveClient($config=[]){
         $oauth_method = IncontactConfig::get('incontact.oauth.auth_method');
-        return $this->{'get'.strtoupper($oauth_method).'Client'}();
+        return $this->{'get'.strtoupper($oauth_method).'Client'}($config);
     }
 
-    protected function getPasswordClient(){
-        return new Password();
+    protected function getPasswordClient($config=[]){
+        return new Password($config);
+    }
+
+    /**
+     * @param $level
+     * @param $message
+     * @return mixed|void
+     */
+    protected function log($level, $message)
+    {
+        if ($this->config['salesforce.logger'] instanceof \Psr\Log\LoggerInterface && is_callable([$this->config['logger'], $level])) {
+            return call_user_func([$this->config['salesforce.logger'], $level], $message);
+        } else {
+            return;
+        }
     }
 
     public function __call($method, $args)

@@ -46,7 +46,11 @@ class IncontactLaravelServiceProvider extends ServiceProvider{
     {
         $this->app['incontact'] = $this->app->share(function($app)
         {
-            return $app->make('Frankkessler\Incontact\Incontact');
+            return $app->make('Frankkessler\Incontact\Incontact', [
+                'config' => [
+                    'incontact.logger' => $app['log'],
+                ],
+            ]);
         });
     }
 

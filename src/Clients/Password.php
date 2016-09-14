@@ -20,12 +20,6 @@ class Password extends Base implements OauthClientInterface
             'token_url' =>'https://'.IncontactConfig::get('incontact.oauth.domain').IncontactConfig::get('incontact.oauth.token_uri'),
             'body_type' => 'json',
 
-            /*
-
-            'redirect_uri' => IncontactConfig::get('incontact.oauth.callback_url'),
-            'auth_location' => 'body',
-             */
-
         ];
         return new PasswordCredentials($config);
     }

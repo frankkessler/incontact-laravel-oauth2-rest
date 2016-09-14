@@ -18,7 +18,6 @@ class AdminApi extends Base
         return $this->client->get('points-of-contact');
     }
 
-
     /*
      * skills
      */

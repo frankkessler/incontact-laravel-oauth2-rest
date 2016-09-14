@@ -16,6 +16,13 @@ use Exception;
 
 class Base
 {
+    protected $oauth2Client;
+
+    public function __construct($config=[])
+    {
+        $this->setClient($config);
+    }
+
     public function getAccessToken()
     {
         $oauth2Client = new Oauth2Client();
@@ -42,34 +49,67 @@ class Base
         return null;
     }
 
-    public function returnClientRefreshGrantTypeClass()
+    public function returnClientRefreshGrantTypeClass($refresh_token=null)
     {
-        $repository = new TokenRepository;
-        $token_record = $repository->store->getTokenRecord();
+        if(!$refresh_token) {
+            $repository = new TokenRepository;
+            $token_record = $repository->store->getTokenRecord();
+            $refresh_token = $token_record->refresh_token;
+        }
 
         $refresh_token_config = [
             'client_id' => IncontactConfig::get('incontact.oauth.consumer_token'),
             'client_secret' => IncontactConfig::get('incontact.oauth.consumer_secret'),
-            'refresh_token' => $token_record->refresh_token,
+            'refresh_token' => $refresh_token,
             'token_url' =>'https://'.IncontactConfig::get('incontact.oauth.domain').IncontactConfig::get('incontact.oauth.token_uri'),
             'body_type' => 'json',
         ];
         return new RefreshToken($refresh_token_config);
     }
 
-    protected function setClient()
+    protected function setClient($config=[])
     {
         $repository = new TokenRepository;
-        $token_record = $repository->store->getTokenRecord();
+        $token_record = null;
 
-        $base_uri = $token_record->instance_base_url;
+        if(!$base_uri = IncontactConfig::get('incontact.base_uri')){
 
-        $this->oauth2Client = new Oauth2Client([
+            $token_record = $repository->store->getTokenRecord();
+
+            $base_uri = $token_record->instance_base_url;
+        }
+
+
+        $client_config = [
             'base_uri' => $base_uri,
             'auth' => 'oauth2',
-        ]);
+        ];
 
-        $this->oauth2Client->setAccessToken($token_record->access_token, $access_token_type='Bearer', $token_record->expires);
+        //allow for override of default oauth2 handler
+        if (isset($config['handler'])) {
+            $client_config['handler'] = $config['handler'];
+        }
+
+        $this->oauth2Client = new Oauth2Client($client_config);
+
+        //If access_token or refresh_token are NOT supplied through constructor, pull them from the repository
+        if (!IncontactConfig::get('incontact.oauth.access_token') || !IncontactConfig::get('incontact.oauth.refresh_token')) {
+            if(!$token_record){
+                $token_record = $repository->store->getTokenRecord();
+            }
+
+            IncontactConfig::set('incontact.oauth.access_token', $token_record->access_token);
+            IncontactConfig::set('incontact.oauth.refresh_token', $token_record->refresh_token);
+            IncontactConfig::set('incontact.oauth.expires', $token_record->expires);
+        }
+
+        $access_token = IncontactConfig::get('incontact.oauth.access_token');
+        $refresh_token = IncontactConfig::get('incontact.oauth.refresh_token');
+        $expires = IncontactConfig::get('incontact.oauth.expires');
+
+        //Set access token and refresh token in Guzzle oauth client
+        $this->oauth2Client->setAccessToken($access_token, $access_token_type = 'Bearer', $expires);
+        $this->oauth2Client->setRefreshToken($refresh_token);
 
         $grant_type = $this->returnClientGrantTypeClass();
 
@@ -77,10 +117,10 @@ class Base
             $this->oauth2Client->setGrantType($grant_type);
         }
 
-        $refresh_grant_type = $this->returnClientRefreshGrantTypeClass();
+        $refresh_grant_type = $this->returnClientRefreshGrantTypeClass($refresh_token);
 
         if($refresh_grant_type instanceof RefreshTokenGrantTypeInterface){
-            $this->oauth2Client->setRefreshToken($token_record->refresh_token, $refresh_token_type='refresh_token');
+            $this->oauth2Client->setRefreshToken($refresh_token);
             $this->oauth2Client->setRefreshTokenGrantType($refresh_grant_type);
         }
     }
@@ -88,7 +128,7 @@ class Base
     protected function _call_api($method, $url, $options=[], $debug_info=[], $try=1){
         $data = [];
         try{
-            $this->setClient();
+            //$this->setClient();
 
             //function can be run twice with same input, so check to make sure the url hasn't already been set
             if(!str_contains($url,'services/'.IncontactConfig::get('incontact.api_version'))){
@@ -173,6 +213,7 @@ class Base
             $this->repository->store->setAccessToken($current_access_token);
         }
     }
+
     public function __call($method, $args)
     {
         $url = isset($args[0])?$args[0]:'';
