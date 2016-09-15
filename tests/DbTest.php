@@ -37,7 +37,7 @@ class DbTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
         $refreshTokenString = 'TEST_REFRESH_TOKEN';
         $expires = 1473913598;
 
-        $data = array_replace(json_decode($this->returnAuthorizationCodeAccessTokenResponse(), true),[
+        $data = array_replace(json_decode($this->returnAuthorizationCodeAccessTokenResponse(), true), [
             'refresh_token' => $refreshTokenString,
             'expires'       => $expires,
         ]);
