@@ -98,7 +98,7 @@ class DbTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
     public function testAgentApiWithRepository()
     {
-        $user_id = 1;
+        $user_id = "";
 
         $accessTokenString = 'TEST_TOKEN';
         $refreshTokenString = 'TEST_REFRESH_TOKEN';
@@ -122,6 +122,10 @@ class DbTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
         $handler = HandlerStack::create($mock);
 
+        \Frankkessler\Incontact\IncontactConfig::set('incontact.base_uri','');
+        \Frankkessler\Incontact\IncontactConfig::set('incontact.oauth.access_token','');
+        \Frankkessler\Incontact\IncontactConfig::set('incontact.oauth.refresh_token','');
+
         $incontact = new \Frankkessler\Incontact\Incontact([
             'handler' => $handler,
         ]);
@@ -139,6 +143,12 @@ class DbTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
             }
             $i++;
         }
+
+        $tokenRecord = $repository->getTokenRecord($user_id);
+
+        $this->assertEquals(\Frankkessler\Incontact\IncontactConfig::get('incontact.oauth.access_token'), $tokenRecord->access_token);
+        $this->assertEquals(\Frankkessler\Incontact\IncontactConfig::get('incontact.oauth.refresh_token'), $tokenRecord->refresh_token);
+
     }
 
     public function testAgentApiBadRequestWithRepository()
@@ -185,6 +195,7 @@ class DbTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
             "resource_server_base_uri": "https://api.incontact.com",
             "refresh_token_server_uri": "https://api.incontact.com",
             "expires": 1473913598,
+            "expires_in": 3600,
             "token_type": "bearer",
             "scope": "AdminApi ReportingApi RealTimeApi",
             "agent_id": "999999",

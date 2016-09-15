@@ -6,7 +6,7 @@ class IncontactConfig
 {
     private static $config;
 
-    public static function get($key = null)
+    public static function get($key = null, $default = null)
     {
         if (!self::$config) {
             self::$config = self::getInitialConfig();
@@ -16,7 +16,10 @@ class IncontactConfig
             return self::$config;
         } elseif (isset(self::$config[$key])) {
             return self::$config[$key];
+        } elseif ($default) {
+            return $default;
         }
+
 
         return '';
     }
