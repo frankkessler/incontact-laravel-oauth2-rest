@@ -21,4 +21,11 @@ class Password extends Base implements OauthClientInterface
 
         return new PasswordCredentials($config);
     }
+
+    public function call_api($method, $url, $options = [], $debug_info = [])
+    {
+        $response = $this->_call_api($method, $url, $options, $debug_info);
+
+        return $response;
+    }
 }
