@@ -4,7 +4,7 @@ namespace Frankkessler\Incontact;
 
 class IncontactConfig
 {
-    private static $config;
+    private static $config = [];
 
     public static function get($key = null, $default = null)
     {
@@ -58,5 +58,10 @@ class IncontactConfig
         $config = ['incontact' => $config];
 
         return array_dot($config);
+    }
+
+    public static function reset()
+    {
+        self::$config = [];
     }
 }
