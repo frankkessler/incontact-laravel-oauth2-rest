@@ -51,9 +51,11 @@ class TokenEloquentRepository implements TokenRepositoryInterface
             $record->user_id = $user_id;
         }
 
-        $expires = date_create_from_format('Y-m-d H:i:s', $record->expires);
-        if ($expires instanceof DateTime) {
-            $record->expires = $expires->format('U');
+        if($record->expires) {
+            $expires = date_create_from_format('Y-m-d H:i:s', $record->expires);
+            if ($expires instanceof DateTime) {
+                $record->expires = $expires->format('U');
+            }
         }
 
         return $record;
