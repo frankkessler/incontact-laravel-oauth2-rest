@@ -1,14 +1,12 @@
 <?php
 
-use \Closure;
-use \Mockery;
 use \ArrayAccess;
-use \ReflectionClass;
-use \ReflectionMethod;
-use \Mockery\MockInterface;
 use \Frankkessler\Incontact\Providers\IncontactLaravelServiceProvider;
 use \Illuminate\Contracts\Foundation\Application as ApplicationInterface;
-
+use \Mockery;
+use \Mockery\MockInterface;
+use \ReflectionClass;
+use \ReflectionMethod;
 
 class LaravelServiceProviderTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 {
@@ -28,18 +26,18 @@ class LaravelServiceProviderTest extends \Mockery\Adapter\Phpunit\MockeryTestCas
     private $provider;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function setUp()
     {
         parent::setUp();
 
-        $this->config   = Mockery::mock();
+        $this->config = Mockery::mock();
 
         $this->app = Mockery::mock(ArrayAccess::class);
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        /* @noinspection PhpMethodParametersCountMismatchInspection */
         //$this->app->shouldReceive('offsetGet')->zeroOrMoreTimes()->with('path.config')->andReturn('/some/config/path');
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        /* @noinspection PhpMethodParametersCountMismatchInspection */
         //$this->app->shouldReceive('offsetGet')->zeroOrMoreTimes()->with('config')->andReturn($this->config);
 
         /** @var ApplicationInterface $app */
@@ -53,11 +51,11 @@ class LaravelServiceProviderTest extends \Mockery\Adapter\Phpunit\MockeryTestCas
      */
     public function testRegister()
     {
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        /* @noinspection PhpMethodParametersCountMismatchInspection */
         //$this->config->shouldReceive('get')->withAnyArgs()->once()->andReturn([]);
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        /* @noinspection PhpMethodParametersCountMismatchInspection */
         //$this->config->shouldReceive('set')->withAnyArgs()->once()->andReturnUndefined();
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        /* @noinspection PhpMethodParametersCountMismatchInspection */
         //$this->app->shouldReceive('bind')->withAnyArgs()->twice()->andReturnUndefined();
 
         //$this->provider->register();
@@ -70,7 +68,7 @@ class LaravelServiceProviderTest extends \Mockery\Adapter\Phpunit\MockeryTestCas
      */
     protected static function getMethod($name)
     {
-        $class  = new ReflectionClass(IncontactLaravelServiceProvider::class);
+        $class = new ReflectionClass(IncontactLaravelServiceProvider::class);
         $method = $class->getMethod($name);
         $method->setAccessible(true);
 
