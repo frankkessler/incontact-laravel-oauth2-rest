@@ -48,4 +48,18 @@ class ConfigTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
         \Frankkessler\Incontact\IncontactConfig::reset();
     }
+
+    public function testSetInitialConfig()
+    {
+        \Frankkessler\Incontact\IncontactConfig::setInitialConfig([
+            'nonexistent_key' => 'default',
+            'nonexistent_key1' => 'default1',
+        ]);
+
+        $value = \Frankkessler\Incontact\IncontactConfig::get('nonexistent_key1');
+
+        $this->assertEquals('default1', $value);
+
+        \Frankkessler\Incontact\IncontactConfig::reset();
+    }
 }
