@@ -20,7 +20,6 @@ class IncontactConfig
             return $default;
         }
 
-
         return '';
     }
 
