@@ -1,8 +1,5 @@
 <?php
 
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
 
 class ConfigTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 {
@@ -17,7 +14,7 @@ class ConfigTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
     public function testGetDefault()
     {
-        $value = \Frankkessler\Incontact\IncontactConfig::get('nonexistent_key','default');
+        $value = \Frankkessler\Incontact\IncontactConfig::get('nonexistent_key', 'default');
 
         $this->assertEquals('default', $value);
 
@@ -26,7 +23,7 @@ class ConfigTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
     public function testSet()
     {
-        \Frankkessler\Incontact\IncontactConfig::set('nonexistent_key','default');
+        \Frankkessler\Incontact\IncontactConfig::set('nonexistent_key', 'default');
 
         $value = \Frankkessler\Incontact\IncontactConfig::get('nonexistent_key');
 
@@ -38,7 +35,7 @@ class ConfigTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     public function testSetAll()
     {
         \Frankkessler\Incontact\IncontactConfig::setAll([
-            'nonexistent_key' => 'default',
+            'nonexistent_key'  => 'default',
             'nonexistent_key1' => 'default1',
         ]);
 
@@ -52,7 +49,7 @@ class ConfigTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     public function testSetInitialConfig()
     {
         \Frankkessler\Incontact\IncontactConfig::setInitialConfig([
-            'nonexistent_key' => 'default',
+            'nonexistent_key'  => 'default',
             'nonexistent_key1' => 'default1',
         ]);
 

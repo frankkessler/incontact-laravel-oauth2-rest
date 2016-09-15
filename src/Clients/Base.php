@@ -3,7 +3,6 @@
 namespace Frankkessler\Incontact\Clients;
 
 use CommerceGuys\Guzzle\Oauth2\AccessToken;
-use CommerceGuys\Guzzle\Oauth2\Exceptions\InvalidGrantException;
 use CommerceGuys\Guzzle\Oauth2\GrantType\GrantTypeInterface;
 use CommerceGuys\Guzzle\Oauth2\GrantType\RefreshToken;
 use CommerceGuys\Guzzle\Oauth2\GrantType\RefreshTokenGrantTypeInterface;
