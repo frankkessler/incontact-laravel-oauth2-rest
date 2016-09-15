@@ -27,6 +27,7 @@ class Authentication
     /**
      * @param string$code
      * @param Request $request
+     *
      * @return string
      */
     public static function processAuthenticationCode($code, $request, $options)
