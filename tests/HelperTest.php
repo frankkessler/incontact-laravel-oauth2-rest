@@ -20,5 +20,8 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(false, env('var_false_parentheses'));
         $this->assertSame('', env('var_empty_parentheses'));
         $this->assertSame(null, env('var_null_parentheses'));
+
+        putenv('var_quotes="quotes"');
+        $this->assertSame('quotes', env('var_quotes'));
     }
 }
