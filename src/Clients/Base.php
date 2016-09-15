@@ -16,11 +16,21 @@ class Base
 {
     protected $oauth2Client;
 
+    protected $config;
+
     public function __construct($config = [])
     {
-        $this->setClient($config);
+        $this->config = $config;
+        $this->setClient();
     }
 
+    /**
+     * @deprecated
+     *
+     * @codeCoverageIgnore
+     *
+     * @return AccessToken|null
+     */
     public function getAccessToken()
     {
         $oauth2Client = new Oauth2Client();
@@ -45,14 +55,8 @@ class Base
     {
     }
 
-    public function returnClientRefreshGrantTypeClass($refresh_token = null)
+    public function returnClientRefreshGrantTypeClass($refresh_token)
     {
-        if (!$refresh_token) {
-            $repository = new TokenRepository();
-            $token_record = $repository->store->getTokenRecord();
-            $refresh_token = $token_record->refresh_token;
-        }
-
         $refresh_token_config = [
             'client_id'     => IncontactConfig::get('incontact.oauth.consumer_token'),
             'client_secret' => IncontactConfig::get('incontact.oauth.consumer_secret'),
@@ -64,8 +68,10 @@ class Base
         return new RefreshToken($refresh_token_config);
     }
 
-    protected function setClient($config = [])
+    protected function setClient()
     {
+        $config = $this->config;
+
         $repository = new TokenRepository();
         $token_record = null;
 
@@ -156,12 +162,29 @@ class Base
                 }
                 $data['http_status'] = $response_code;
                 $data = array_merge($debug_info, $data);
+                $this->log('error', 'Incontact - '.json_encode($data));
             }
         } catch (Exception $e) {
             //debug failures
+            $this->log('error', 'Incontact - '.$e->getMessage().' - '.$e->getFile().':'.$e->getLine());
         }
 
         return $data;
+    }
+
+    /**
+     * @param $level
+     * @param $message
+     *
+     * @return mixed|void
+     */
+    protected function log($level, $message)
+    {
+        if (isset($this->config['incontact.logger']) && $this->config['incontact.logger'] instanceof \Psr\Log\LoggerInterface && is_callable([$this->config['incontact.logger'], $level])) {
+            return call_user_func([$this->config['incontact.logger'], $level], $message);
+        } else {
+            return;
+        }
     }
 
     protected function updateAccessToken($current_access_token)

@@ -16,13 +16,7 @@ class Incontact
 
         IncontactConfig::setInitialConfig($config);
 
-        $oauth_config = [];
-
-        if (isset($config['handler'])) {
-            $oauth_config['handler'] = $config['handler'];
-        }
-
-        $this->client = $this->getActiveClient($oauth_config);
+        $this->client = $this->getActiveClient($config);
     }
 
     protected function getActiveClient($config = [])
@@ -35,21 +29,6 @@ class Incontact
     protected function getPasswordClient($config = [])
     {
         return new Password($config);
-    }
-
-    /**
-     * @param $level
-     * @param $message
-     *
-     * @return mixed|void
-     */
-    protected function log($level, $message)
-    {
-        if ($this->config['salesforce.logger'] instanceof \Psr\Log\LoggerInterface && is_callable([$this->config['logger'], $level])) {
-            return call_user_func([$this->config['salesforce.logger'], $level], $message);
-        } else {
-            return;
-        }
     }
 
     public function __call($method, $args)
