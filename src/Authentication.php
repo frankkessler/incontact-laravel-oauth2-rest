@@ -7,6 +7,7 @@ use CommerceGuys\Guzzle\Oauth2\GrantType\RefreshToken;
 use CommerceGuys\Guzzle\Oauth2\Oauth2Client;
 use CommerceGuys\Guzzle\Oauth2\Utilities;
 use Frankkessler\Incontact\Repositories\TokenRepository;
+use Illuminate\Http\Request;
 
 class Authentication
 {
@@ -23,15 +24,20 @@ class Authentication
         return '<a href="'.Utilities::getAuthorizationUrl($service_authorization_url, $oauth_config).'&state=myState">Login to Incontact</a>';
     }
 
-    public static function processAuthenticationCode($code, $request)
+    /**
+     * @param string$code
+     * @param Request $request
+     * @return string
+     */
+    public static function processAuthenticationCode($code, $request, $options)
     {
         $repository = new TokenRepository();
 
         $base_uri = $request->input('resource_server_base_uri');
 
-        $oauth2Client = new Oauth2Client([
+        $oauth2Client = new Oauth2Client(array_replace([
             'base_uri' => $base_uri,
-        ]);
+        ], $options));
 
         $authorization_config = [
             'code'          => $code,

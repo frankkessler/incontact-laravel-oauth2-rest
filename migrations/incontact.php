@@ -1,7 +1,9 @@
 <?php
 
+use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder as Schema;
 
 class CreateIncontactTokensTable extends Migration
 {
@@ -12,8 +14,17 @@ class CreateIncontactTokensTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('incontact_tokens')) {
-            Schema::create('incontact_tokens', function (Blueprint $table) {
+        if ($connection = Capsule::connection($this->getConnection())) {
+            $connection->useDefaultSchemaGrammar();
+        } else {
+            $app = app();
+            $connection = $app['db']->connection($this->getConnection());
+        }
+
+        $schema = new Schema($connection);
+
+        if (!$schema->hasTable('incontact_tokens')) {
+            $schema->create('incontact_tokens', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->longText('access_token');
                 $table->string('refresh_token');
@@ -38,6 +49,5 @@ class CreateIncontactTokensTable extends Migration
      */
     public function down()
     {
-        Schema::drop('incontact_tokens');
     }
 }
