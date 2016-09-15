@@ -96,6 +96,122 @@ class DbTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
         $this->assertEquals('AUTH_TEST_REFRESH_TOKEN', $tokenRecord->refresh_token);
     }
 
+    public function testAgentApiWithRepository()
+    {
+        $user_id = 1;
+
+        $accessTokenString = 'TEST_TOKEN';
+        $refreshTokenString = 'TEST_REFRESH_TOKEN';
+        $expires = 1473913598;
+
+        $data = array_replace(json_decode($this->returnAuthorizationCodeAccessTokenResponse(), true), [
+            'refresh_token' => $refreshTokenString,
+            'expires'       => $expires,
+        ]);
+
+        $accessToken = new CommerceGuys\Guzzle\Oauth2\AccessToken($accessTokenString, 'bearer', $data);
+
+        $repository = new \Frankkessler\Incontact\Repositories\Eloquent\TokenEloquentRepository();
+        $repository->setTokenRecord($accessToken, $user_id);
+
+        $agentTest = new AdminApiTest();
+        // Create a mock and queue two responses.
+        $mock = new MockHandler([
+            new Response(200, [], $agentTest->agentsSuccess()),
+        ]);
+
+        $handler = HandlerStack::create($mock);
+
+        $incontact = new \Frankkessler\Incontact\Incontact([
+            'handler' => $handler,
+        ]);
+
+        $result = $incontact->AdminApi()->agents();
+
+        $this->assertTrue(is_array($result['agents']));
+
+        $i = 1;
+        foreach ($result['agents'] as $record) {
+            if ($i == 1) {
+                $this->assertEquals('999999', $record['AgentId']);
+            } else {
+                $this->assertEquals('999998', $record['AgentId']);
+            }
+            $i++;
+        }
+    }
+
+    public function testAgentApiBadRequestWithRepository()
+    {
+        $user_id = 1;
+
+        $accessTokenString = 'TEST_TOKEN';
+        $refreshTokenString = 'TEST_REFRESH_TOKEN';
+        $expires = 1473913598;
+
+        $data = array_replace(json_decode($this->returnAuthorizationCodeAccessTokenResponse(), true), [
+            'refresh_token' => $refreshTokenString,
+            'expires'       => $expires,
+        ]);
+
+        $accessToken = new CommerceGuys\Guzzle\Oauth2\AccessToken($accessTokenString, 'bearer', $data);
+
+        $repository = new \Frankkessler\Incontact\Repositories\Eloquent\TokenEloquentRepository();
+        $repository->setTokenRecord($accessToken, $user_id);
+
+        // Create a mock and queue two responses.
+        $mock = new MockHandler([
+            new Response(404),
+        ]);
+
+        $handler = HandlerStack::create($mock);
+
+        $incontact = new \Frankkessler\Incontact\Incontact([
+            'handler' => $handler,
+        ]);
+
+        $result = $incontact->AdminApi()->agents();
+
+        $this->assertEquals(404, $result['http_status']);
+
+    }
+
+    public function testAgentApiBadTokenExceptionWithRepository()
+    {
+        $user_id = 1;
+
+        $accessTokenString = 'TEST_TOKEN';
+        $refreshTokenString = 'TEST_REFRESH_TOKEN';
+        $expires = 1473913598;
+
+        $data = array_replace(json_decode($this->returnAuthorizationCodeAccessTokenResponse(), true), [
+            'refresh_token' => $refreshTokenString,
+            'expires'       => $expires,
+        ]);
+
+        $accessToken = new CommerceGuys\Guzzle\Oauth2\AccessToken($accessTokenString, 'bearer', $data);
+
+        $repository = new \Frankkessler\Incontact\Repositories\Eloquent\TokenEloquentRepository();
+        $repository->setTokenRecord($accessToken, $user_id);
+
+        // Create a mock and queue two responses.
+        $mock = new MockHandler([
+            new Response(401, [], json_encode(['error' => 'invalid_grant'])),
+        ]);
+
+        $handler = HandlerStack::create($mock);
+
+        $incontact = new \Frankkessler\Incontact\Incontact([
+            'handler' => $handler,
+        ]);
+
+        $result = $incontact->AdminApi()->agents();
+
+        $this->assertEquals('invalid_grant', $result['error']);
+        $this->assertEquals(401, $result['http_status']);
+
+    }
+
     public function returnAuthorizationCodeAccessTokenResponse()
     {
         return
