@@ -37,10 +37,6 @@ class LaravelServiceProviderTest extends \Mockery\Adapter\Phpunit\MockeryTestCas
         $this->config   = Mockery::mock();
 
         $this->app = Mockery::mock(ArrayAccess::class);
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
-        //$this->app->shouldReceive('offsetGet')->zeroOrMoreTimes()->with('path.config')->andReturn('/some/config/path');
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
-        //$this->app->shouldReceive('offsetGet')->zeroOrMoreTimes()->with('config')->andReturn($this->config);
 
         /** @var ApplicationInterface $app */
         $app = $this->app;
@@ -54,13 +50,20 @@ class LaravelServiceProviderTest extends \Mockery\Adapter\Phpunit\MockeryTestCas
     public function testRegister()
     {
         /** @noinspection PhpMethodParametersCountMismatchInspection */
-        //$this->config->shouldReceive('get')->withAnyArgs()->once()->andReturn([]);
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
-        //$this->config->shouldReceive('set')->withAnyArgs()->once()->andReturnUndefined();
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
-        //$this->app->shouldReceive('bind')->withAnyArgs()->twice()->andReturnUndefined();
+        //$this->app->shouldReceive('set')->withAnyArgs()->once()->andReturnUndefined();
 
         //$this->provider->register();
+    }
+
+    /**
+     * Test register provider.
+     */
+    public function testBoot()
+    {
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        //$this->app->shouldReceive('set')->withAnyArgs()->once()->andReturnUndefined();
+
+        //$this->provider->boot();
     }
 
     /**
