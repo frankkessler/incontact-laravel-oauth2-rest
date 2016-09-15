@@ -23,5 +23,8 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
         putenv('var_quotes="quotes"');
         $this->assertSame('quotes', env('var_quotes'));
+
+        putenv('var_basic=basic_test');
+        $this->assertSame('basic_test', env('var_basic'));
     }
 }
