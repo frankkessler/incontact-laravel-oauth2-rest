@@ -173,7 +173,6 @@ class DbTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
         $result = $incontact->AdminApi()->agents();
 
         $this->assertEquals(404, $result['http_status']);
-
     }
 
     public function returnAuthorizationCodeAccessTokenResponse()
