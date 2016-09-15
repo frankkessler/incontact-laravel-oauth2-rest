@@ -176,42 +176,6 @@ class DbTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
     }
 
-    public function testAgentApiBadTokenExceptionWithRepository()
-    {
-        $user_id = 1;
-
-        $accessTokenString = 'TEST_TOKEN';
-        $refreshTokenString = 'TEST_REFRESH_TOKEN';
-        $expires = 1473913598;
-
-        $data = array_replace(json_decode($this->returnAuthorizationCodeAccessTokenResponse(), true), [
-            'refresh_token' => $refreshTokenString,
-            'expires'       => $expires,
-        ]);
-
-        $accessToken = new CommerceGuys\Guzzle\Oauth2\AccessToken($accessTokenString, 'bearer', $data);
-
-        $repository = new \Frankkessler\Incontact\Repositories\Eloquent\TokenEloquentRepository();
-        $repository->setTokenRecord($accessToken, $user_id);
-
-        // Create a mock and queue two responses.
-        $mock = new MockHandler([
-            new Response(401, [], json_encode(['error' => 'invalid_grant'])),
-        ]);
-
-        $handler = HandlerStack::create($mock);
-
-        $incontact = new \Frankkessler\Incontact\Incontact([
-            'handler' => $handler,
-        ]);
-
-        $result = $incontact->AdminApi()->agents();
-
-        $this->assertEquals('invalid_grant', $result['error']);
-        $this->assertEquals(401, $result['http_status']);
-
-    }
-
     public function returnAuthorizationCodeAccessTokenResponse()
     {
         return

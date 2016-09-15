@@ -157,14 +157,6 @@ class Base
                 $data['http_status'] = $response_code;
                 $data = array_merge($debug_info, $data);
             }
-        } catch (InvalidGrantException $e) {
-            if ($try < 2) {
-                //if first InvalidGrantException, try one more time after requesting a new token
-                $this->getAccessToken();
-                $try = 2;
-
-                return $this->_call_api($method, $url, $options, $debug_info, $try);
-            }
         } catch (Exception $e) {
             //debug failures
         }
