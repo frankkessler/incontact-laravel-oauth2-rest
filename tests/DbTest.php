@@ -184,6 +184,43 @@ class DbTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
         $this->assertEquals(404, $result['http_status']);
     }
 
+    public function testRefreshTokenGrant()
+    {
+        $user_id = '';
+
+        $accessTokenString = 'TEST_TOKEN';
+        $refreshTokenString = 'TEST_REFRESH_TOKEN';
+        $expires = 1473913598;
+
+        $data = array_replace(json_decode($this->returnAuthorizationCodeAccessTokenResponse(), true), [
+            'refresh_token' => $refreshTokenString,
+            'expires'       => $expires,
+        ]);
+
+        $accessToken = new CommerceGuys\Guzzle\Oauth2\AccessToken($accessTokenString, 'bearer', $data);
+
+        $repository = new \Frankkessler\Incontact\Repositories\Eloquent\TokenEloquentRepository();
+        $repository->setTokenRecord($accessToken, $user_id);
+
+        $agentTest = new AdminApiTest();
+        // Create a mock and queue two responses.
+        $mock = new MockHandler([
+            new Response(200, [], $agentTest->agentsSuccess()),
+        ]);
+
+        $handler = HandlerStack::create($mock);
+
+        \Frankkessler\Incontact\IncontactConfig::set('incontact.base_uri', '');
+        \Frankkessler\Incontact\IncontactConfig::set('incontact.oauth.access_token', '');
+        \Frankkessler\Incontact\IncontactConfig::set('incontact.oauth.refresh_token', '');
+
+        $incontact = new \Frankkessler\Incontact\Incontact([
+            'handler' => $handler,
+        ]);
+
+        $this->assertTrue(!$incontact->client->returnClientRefreshGrantTypeClass(''));
+    }
+
     public function returnAuthorizationCodeAccessTokenResponse()
     {
         return
