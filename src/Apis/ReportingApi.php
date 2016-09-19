@@ -28,6 +28,7 @@ class ReportingApi extends Base
      */
     public function contacts_completed($query_array = [])
     {
+        //TODO: Handle 204 http status code for no contacts, yet still good response
         $query_string = http_build_query($query_array);
 
         return $this->client->get('contacts/completed?'.$query_string);
