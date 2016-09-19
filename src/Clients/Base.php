@@ -10,6 +10,7 @@ use CommerceGuys\Guzzle\Oauth2\Oauth2Client;
 use Exception;
 use Frankkessler\Incontact\IncontactConfig;
 use Frankkessler\Incontact\Repositories\TokenRepository;
+use GuzzleHttp\Psr7\Response;
 
 class Base
 {
@@ -149,6 +150,8 @@ class Base
             $options['headers']['User-Agent'] = null;
 
             $response = $this->oauth2Client->{$method}($url, $options);
+
+            /** @var Response $response */
 
             $response_code = $response->getStatusCode();
 
