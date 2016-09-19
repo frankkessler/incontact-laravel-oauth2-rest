@@ -24,7 +24,6 @@ class Password extends Base implements OauthClientInterface
 
     public function returnClientRefreshGrantTypeClass($refresh_token)
     {
-        return null;
     }
 
     public function call_api($method, $url, $options = [], $debug_info = [])
