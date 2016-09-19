@@ -1,14 +1,12 @@
 <?php
 
-use \Closure;
-use \Mockery;
 use \ArrayAccess;
-use \ReflectionClass;
-use \ReflectionMethod;
-use \Mockery\MockInterface;
 use \Frankkessler\Incontact\Providers\IncontactLaravelServiceProvider;
 use \Illuminate\Contracts\Foundation\Application as ApplicationInterface;
-
+use \Mockery;
+use \Mockery\MockInterface;
+use \ReflectionClass;
+use \ReflectionMethod;
 
 class LaravelServiceProviderTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 {
@@ -28,13 +26,13 @@ class LaravelServiceProviderTest extends \Mockery\Adapter\Phpunit\MockeryTestCas
     private $provider;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function setUp()
     {
         parent::setUp();
 
-        $this->config   = Mockery::mock();
+        $this->config = Mockery::mock();
 
         $this->app = Mockery::mock(ArrayAccess::class);
 
@@ -49,7 +47,7 @@ class LaravelServiceProviderTest extends \Mockery\Adapter\Phpunit\MockeryTestCas
      */
     public function testRegister()
     {
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        /* @noinspection PhpMethodParametersCountMismatchInspection */
         //$this->app->shouldReceive('set')->withAnyArgs()->once()->andReturnUndefined();
 
         //$this->provider->register();
@@ -60,7 +58,7 @@ class LaravelServiceProviderTest extends \Mockery\Adapter\Phpunit\MockeryTestCas
      */
     public function testBoot()
     {
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        /* @noinspection PhpMethodParametersCountMismatchInspection */
         //$this->app->shouldReceive('set')->withAnyArgs()->once()->andReturnUndefined();
 
         //$this->provider->boot();
@@ -73,7 +71,7 @@ class LaravelServiceProviderTest extends \Mockery\Adapter\Phpunit\MockeryTestCas
      */
     protected static function getMethod($name)
     {
-        $class  = new ReflectionClass(IncontactLaravelServiceProvider::class);
+        $class = new ReflectionClass(IncontactLaravelServiceProvider::class);
         $method = $class->getMethod($name);
         $method->setAccessible(true);
 

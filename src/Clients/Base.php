@@ -151,7 +151,7 @@ class Base
 
             $response = $this->oauth2Client->{$method}($url, $options);
 
-            /** @var Response $response */
+            /* @var Response $response */
 
             $response_code = $response->getStatusCode();
 
