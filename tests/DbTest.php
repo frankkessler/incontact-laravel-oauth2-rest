@@ -83,7 +83,7 @@ class DbTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
         $auth = new \Frankkessler\Incontact\Authentication();
 
         $request = new \Illuminate\Http\Request(['resource_server_base_uri' => 'https://api.incontact.com']);
-        $options = ['handler' => $handler];
+        $options = ['token_handler' => $handler];
         $result = $auth->processAuthenticationCode($code, $request, $options);
 
         $this->assertEquals('Token record set successfully', $result);
