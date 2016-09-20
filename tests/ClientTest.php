@@ -11,5 +11,4 @@ class ClientTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
         $this->assertTrue($refreshGrant instanceof \CommerceGuys\Guzzle\Oauth2\GrantType\RefreshTokenGrantTypeInterface);
     }
-
 }
