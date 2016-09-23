@@ -2,12 +2,12 @@
 
 namespace Frankkessler\Incontact\Clients;
 
+use Exception;
 use Frankkessler\Guzzle\Oauth2\AccessToken;
 use Frankkessler\Guzzle\Oauth2\GrantType\GrantTypeInterface;
 use Frankkessler\Guzzle\Oauth2\GrantType\RefreshToken;
 use Frankkessler\Guzzle\Oauth2\GrantType\RefreshTokenGrantTypeInterface;
 use Frankkessler\Guzzle\Oauth2\Oauth2Client;
-use Exception;
 use Frankkessler\Incontact\IncontactConfig;
 use Frankkessler\Incontact\Repositories\TokenRepository;
 use GuzzleHttp\Psr7\Response;

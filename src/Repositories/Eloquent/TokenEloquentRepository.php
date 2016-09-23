@@ -2,9 +2,9 @@
 
 namespace Frankkessler\Incontact\Repositories\Eloquent;
 
-use Frankkessler\Guzzle\Oauth2\AccessToken;
 use DateInterval;
 use Datetime;
+use Frankkessler\Guzzle\Oauth2\AccessToken;
 use Frankkessler\Incontact\IncontactConfig;
 use Frankkessler\Incontact\Models\IncontactToken;
 use Frankkessler\Incontact\Repositories\TokenRepositoryInterface;
