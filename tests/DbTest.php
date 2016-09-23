@@ -42,7 +42,7 @@ class DbTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
             'expires'       => $expires,
         ]);
 
-        $accessToken = new CommerceGuys\Guzzle\Oauth2\AccessToken($accessTokenString, 'bearer', $data);
+        $accessToken = new Frankkessler\Guzzle\Oauth2\AccessToken($accessTokenString, 'bearer', $data);
 
         $repository = new \Frankkessler\Incontact\Repositories\Eloquent\TokenEloquentRepository();
         $repository->setTokenRecord($accessToken, $user_id);
@@ -109,7 +109,7 @@ class DbTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
             'expires'       => $expires,
         ]);
 
-        $accessToken = new CommerceGuys\Guzzle\Oauth2\AccessToken($accessTokenString, 'bearer', $data);
+        $accessToken = new Frankkessler\Guzzle\Oauth2\AccessToken($accessTokenString, 'bearer', $data);
 
         $repository = new \Frankkessler\Incontact\Repositories\Eloquent\TokenEloquentRepository();
         $repository->setTokenRecord($accessToken, $user_id);
@@ -163,7 +163,7 @@ class DbTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
             'expires'       => $expires,
         ]);
 
-        $accessToken = new CommerceGuys\Guzzle\Oauth2\AccessToken($accessTokenString, 'bearer', $data);
+        $accessToken = new Frankkessler\Guzzle\Oauth2\AccessToken($accessTokenString, 'bearer', $data);
 
         $repository = new \Frankkessler\Incontact\Repositories\Eloquent\TokenEloquentRepository();
         $repository->setTokenRecord($accessToken, $user_id);
@@ -197,7 +197,7 @@ class DbTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
             'expires'       => $expires,
         ]);
 
-        $accessToken = new CommerceGuys\Guzzle\Oauth2\AccessToken($accessTokenString, 'bearer', $data);
+        $accessToken = new Frankkessler\Guzzle\Oauth2\AccessToken($accessTokenString, 'bearer', $data);
 
         $repository = new \Frankkessler\Incontact\Repositories\Eloquent\TokenEloquentRepository();
         $repository->setTokenRecord($accessToken, $user_id);

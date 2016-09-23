@@ -2,7 +2,7 @@
 
 namespace Frankkessler\Incontact\Repositories\Eloquent;
 
-use CommerceGuys\Guzzle\Oauth2\AccessToken;
+use Frankkessler\Guzzle\Oauth2\AccessToken;
 use DateInterval;
 use Datetime;
 use Frankkessler\Incontact\IncontactConfig;

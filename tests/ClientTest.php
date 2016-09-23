@@ -9,6 +9,6 @@ class ClientTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
         $refreshGrant = $client->returnClientRefreshGrantTypeClass('');
 
-        $this->assertTrue($refreshGrant instanceof \CommerceGuys\Guzzle\Oauth2\GrantType\RefreshTokenGrantTypeInterface);
+        $this->assertTrue($refreshGrant instanceof \Frankkessler\Guzzle\Oauth2\GrantType\RefreshTokenGrantTypeInterface);
     }
 }

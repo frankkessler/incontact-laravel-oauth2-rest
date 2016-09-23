@@ -2,11 +2,11 @@
 
 namespace Frankkessler\Incontact\Clients;
 
-use CommerceGuys\Guzzle\Oauth2\AccessToken;
-use CommerceGuys\Guzzle\Oauth2\GrantType\GrantTypeInterface;
-use CommerceGuys\Guzzle\Oauth2\GrantType\RefreshToken;
-use CommerceGuys\Guzzle\Oauth2\GrantType\RefreshTokenGrantTypeInterface;
-use CommerceGuys\Guzzle\Oauth2\Oauth2Client;
+use Frankkessler\Guzzle\Oauth2\AccessToken;
+use Frankkessler\Guzzle\Oauth2\GrantType\GrantTypeInterface;
+use Frankkessler\Guzzle\Oauth2\GrantType\RefreshToken;
+use Frankkessler\Guzzle\Oauth2\GrantType\RefreshTokenGrantTypeInterface;
+use Frankkessler\Guzzle\Oauth2\Oauth2Client;
 use Exception;
 use Frankkessler\Incontact\IncontactConfig;
 use Frankkessler\Incontact\Repositories\TokenRepository;

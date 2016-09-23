@@ -2,7 +2,7 @@
 
 namespace Frankkessler\Incontact\Clients;
 
-use CommerceGuys\Guzzle\Oauth2\GrantType\PasswordCredentials;
+use Frankkessler\Guzzle\Oauth2\GrantType\PasswordCredentials;
 use Frankkessler\Incontact\IncontactConfig;
 
 class Password extends Base implements OauthClientInterface

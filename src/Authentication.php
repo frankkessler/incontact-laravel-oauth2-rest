@@ -2,10 +2,10 @@
 
 namespace Frankkessler\Incontact;
 
-use CommerceGuys\Guzzle\Oauth2\GrantType\AuthorizationCode;
-use CommerceGuys\Guzzle\Oauth2\GrantType\RefreshToken;
-use CommerceGuys\Guzzle\Oauth2\Oauth2Client;
-use CommerceGuys\Guzzle\Oauth2\Utilities;
+use Frankkessler\Guzzle\Oauth2\GrantType\AuthorizationCode;
+use Frankkessler\Guzzle\Oauth2\GrantType\RefreshToken;
+use Frankkessler\Guzzle\Oauth2\Oauth2Client;
+use Frankkessler\Guzzle\Oauth2\Utilities;
 use Frankkessler\Incontact\Repositories\TokenRepository;
 use Illuminate\Http\Request;
 
