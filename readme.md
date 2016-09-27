@@ -1,7 +1,7 @@
 [![Travis CI Build Status](https://api.travis-ci.org/frankkessler/incontact-laravel-oauth2-rest.svg)](https://travis-ci.org/frankkessler/incontact-laravel-oauth2-rest/)
 [![Coverage Status](https://coveralls.io/repos/github/frankkessler/incontact-laravel-oauth2-rest/badge.svg?branch=master)](https://coveralls.io/github/frankkessler/incontact-laravel-oauth2-rest?branch=master)
 [![StyleCI](https://styleci.io/repos/45960401/shield)](https://styleci.io/repos/45960401)
-[![Latest Stable Version](https://poser.pugx.org/frankkessler/incontact-laravel-oauth2-rest/v/stable)](https://packagist.org/packages/frankkessler/incontact-laravel-oauth2-rest)
+[![Latest Stable Version](https://img.shields.io/packagist/v/frankkessler/incontact-laravel-oauth2-rest.svg)](https://packagist.org/packages/frankkessler/incontact-laravel-oauth2-rest)
 
 # INSTALLATION
 
