@@ -81,7 +81,6 @@ class Base
             $base_uri = $token_record->instance_base_url;
         }
 
-
         $client_config = [
             'base_uri' => $base_uri,
             'auth'     => 'oauth2',
